@@ -14,10 +14,13 @@ export async function GET(request: Request) {
     );
   }
 
-  try {
-    const browser = await kernel.browsers.create();
+  let browser: any = null;
+  let stagehand: Stagehand | null = null;
 
-    const stagehand = new Stagehand({
+  try {
+    browser = await kernel.browsers.create();
+
+    stagehand = new Stagehand({
       env: 'LOCAL',
       verbose: 1,
       domSettleTimeoutMs: 30_000,
@@ -42,15 +45,23 @@ export async function GET(request: Request) {
     const output = await page.extract({
       instruction: `Based on this query: "${query}", find and extract the top 5 most relevant companies from Y Combinator. Use the search and filter options on the page if needed to find companies that match the query. 
 
-For each company, extract:
+IMPORTANT: For each company, you MUST click into their individual company page to find their website URL. The website URL is typically not visible on the main companies list page.
+
+For each company:
+1. Click on the company name or company card to open their individual page
+2. Extract the website URL from their company page (look for "Visit website", "Website" links, or displayed URLs)
+3. Go back to the companies list page
+4. Repeat for the next company
+
+Extract for each company:
 - Company name
 - A brief description of what they do
-- Their website URL (look for links, "Visit website" buttons, or URLs displayed on the company card/listings - if you can't find it, leave it empty)
+- Their website URL (MUST click into company page to find this - look for "Visit website" buttons, website links, or displayed URLs on the company's individual page)
 - Their location (city, state, country, or "Remote" - if not available, leave empty)
 - Whether they are a public company (true/false - look for IPO status, public trading indicators, or "Public" labels)
 - Their Y Combinator batch (e.g., "Summer 2024", "Winter 2023") if available
 
-Make sure to look for clickable links or displayed URLs for the website field, and check for location information and public company status indicators.`,
+Make sure to navigate to each company's individual page to find the website URL.`,
       schema: z.object({
         companies: z.array(z.object({
           name: z.string(),
@@ -75,5 +86,17 @@ Make sure to look for clickable links or displayed URLs for the website field, a
       }),
       { status: 500, headers: { "Content-Type": "application/json" } }
     );
+  } finally {
+    // Clean up browser and stagehand instances to free up concurrent session limit
+    try {
+      if (stagehand) {
+        await stagehand.close();
+      }
+      if (browser && browser.id) {
+        await kernel.browsers.delete(browser.id);
+      }
+    } catch (cleanupError) {
+      console.error("Error during cleanup:", cleanupError);
+    }
   }
 }
