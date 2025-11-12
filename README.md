@@ -23,7 +23,7 @@ Kernel is a developer platform creating browser-based infrastructure to power AI
 
 ## Why an Angel Investor Agent
 
-For one, I am not an angel investor but this tool is not just for investors. In fact the motivation behind the idea stems from my job search after graduating college:
+I am not an angel investor but this tool is not just for investors. In fact the motivation behind the idea stems from my job search after graduating college:
 
 1) As someone who’s been actively searching for jobs, one of the most annoying struggles is filtering roles. Most job boards use rigid filters that never quite capture what you’re actually looking for.
 
