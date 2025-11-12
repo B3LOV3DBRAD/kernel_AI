@@ -9,9 +9,9 @@ type ApiResponse = {
       name: string;
       description: string;
       website: string;
-      location?: string;
-      isPublic?: boolean;
-      batch?: string;
+      location?: string | null;
+      isPublic?: boolean | null;
+      batch?: string | null;
     }>;
   };
   error?: string;
