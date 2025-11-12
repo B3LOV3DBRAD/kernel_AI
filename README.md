@@ -21,6 +21,17 @@ Kernel is a developer platform creating browser-based infrastructure to power AI
 3. AI (gpt-4o model) interprets the query and uses search/filters to find matching companies
 4. Returns the top 5 most relevant companies with structured data
 
+## Why an Angel Investor Agent
+
+For one, I am not an angel investor but this tool is not just for investors. In fact the motivation behind the idea stems from my job search after graduating college:
+
+1) As someone who’s been actively searching for jobs, one of the most annoying struggles is filtering roles. Most job boards use rigid filters that never quite capture what you’re actually looking for.
+
+2) While I am not a big fan of LinkedIn Jobs (and mass sending applications to bots), one feature I do enjoy is the natural language prompt where you can describe the kinds of roles you’re looking for (ex. “assistant to an angel investor who uses this tool!”).
+
+3) I wanted to build something similar for Y Combinator’s startup directory — a way to ask naturally for what you want (“early-stage AI startups in healthcare”) instead of clicking through filters. This project builds off a previous Kernel demo I made that scraped URLs from HackerRank, but this time, I wanted to combine Kernel’s browser automation with LLM reasoning to make startup discovery conversational, and more applicable.
+
+
 ### Example Interaction
 
 **Query:** "Top consumer goods companies"
